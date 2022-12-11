@@ -50,6 +50,11 @@
 		</div>
 	</div>
 	<a id="quitb" class="vanish" style="position:fixed;top:calc( 50vh + 63vw );right:20px;width:12vh;height:6vh;font-size:4vh;text-align:center;border:solid 1px;">退出</a>
+	<div id="help" class="vanish" style="position:absolute;width:100vw;height:100vh;background:#FFFFFF;">
+		<H1>「ホーム画面に追加」のやり方<H1></br>
+		<a href="https://www.google.co.jp/search?q=iphone+%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2%E3%81%AB%E8%BF%BD%E5%8A%A0">ios</a></br>
+		<a href="https://www.google.co.jp/search?q=android+%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2%E3%81%AB%E8%BF%BD%E5%8A%A0">android</a></br>
+	</div>
 	<script>
 		var pp = 0;
 		function handle(event) {
@@ -70,7 +75,7 @@
 			if(pp>3){pp=3}
 			document.getElementById("rimg").src = "src/" + pp + ".png";
 		}
-		if(!window.navigator.standalone){alert("「ホーム画面に追加」をして開いてください。");qwdnio}
+		if(!window.navigator.standalone || !(window.matchMedia('(display-mode: standalone)').matches){alert("「ホーム画面に追加」をして開いてください。");document.getElementById("help").classList.remove("vanish");}
 	</script>
   </body>
 </html>
