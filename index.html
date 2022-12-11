@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>連線</title>
+	<link rel="icon" href="src/icon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script>
+	<script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
+	<script src="sketch.js"></script>
+	<link rel="stylesheet" href="style.css">
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon" href="src/icon.png">
+  </head>
+  <body>
+	<div id="rooms" style="width:80vw;height:70vh;position:absolute;top:10vh;left:10vw;border:solid;margin:0;padding:0;">
+		<ul style="height:60vh;width:100%;overflow-y: scroll;margin:0px;padding:10px;box-sizing: border-box;background:#EEEEEE;border:solid 1px;" id="jj">
+			<li>サーバーと通信中です...</li>
+		</ul>
+		<div style="width:100%;height:10vh;margin:0;padding:10px;box-sizing: border-box;">
+		<a id="reqb" style="position:fixed;width:6vh;height:6vh;font-size:5vh;transform: translateX(120%);text-align:center;vertical-align:middle;border:solid 1px;">⟳</a>
+		<a id="plusb" style="position:fixed;width:6vh;height:6vh;font-size:5vh;text-align:center;border:solid 1px;">+</a>
+		</div>
+	</div>
+	<a id="ruleb" style="position:absolute;top:82vh;left:50vw;width:60vw;height:10vw;text-align:center;font-size:6vw;padding-top:1px;transform: translateX(-50%);border:solid;">ルール</a>
+    <div id="bb" class="bb"></div>
+	<div id="modal1" class="modal" style="height:40vw;top:calc( 50vh - 20vw );">
+		<div style="margin:0;padding:0;width:100%;height:10vw;display:flex;justify-content:flex-end;">
+			<a style="font-size:10vw;width:10vw;height:10vw;"></a>
+		</div>
+		<div style="margin:0;padding:0;width:90vw;height;30vw;display:flex;justify-content:center;flex-flow: column;">
+			<H2 style="margin-top:0;text-align:center;">ユーザー名を入力してください</H2>
+			<input style="margin-left:auto;margin-right:auto;width:80vw;height:5vw;font-size: 16px;" id="username" maxlength="10"></input>
+			<button style="margin:1vw;margin-left:auto;margin-right:auto;width:20vw;" id="fb">決定</button>
+		</div>
+	</div>
+	<div id="modal2" class="modal vanish">
+		<div style="margin:0;padding:0;width:100%;height:10vw;display:flex;justify-content:flex-end;">
+			<a style="font-size:10vw;width:10vw;height:10vw;text-align:center;" onclick="closemodal2();">×</a>
+		</div>
+		<div style="margin:0;padding:0;width:90vw;height:70vw;display:flex;justify-content:center;flex-flow: column;">
+			<div style="width:90vw;height:60vw;display:flex;justify-content:center;">
+				<img id="rimg" src="src/0.png" style="width:60vw;height:60vw;left:15vw;">
+			</div>
+			<div style="width:90vw;height:10vw;display:flex;justify-content:center;">
+			<a style="margin:1vw;margin-left:auto;margin-right:auto;width:20vw;font-size:7vw;text-align:center;" onclick="turnpage(-1)">←</a>
+			<a style="margin:1vw;margin-left:auto;margin-right:auto;width:20vw;font-size:7vw;text-align:center;" onclick="turnpage(1)">→</a>
+			</div>
+		</div>
+	</div>
+	<a id="quitb" class="vanish" style="position:fixed;top:calc( 50vh + 63vw );right:20px;width:12vh;height:6vh;font-size:4vh;text-align:center;border:solid 1px;">退出</a>
+	<script>
+		var pp = 0;
+		function handle(event) {
+			event.preventDefault();
+		}
+		document.addEventListener("dblclick", function(e){ e.preventDefault();}, { passive: false });
+		window.onload = function() {
+		  document.addEventListener('touchmove', handle, { passive: false });
+		  document.addEventListener('mousewheel', handle, { passive: false });
+		}
+		function closemodal2(){
+			document.getElementById("modal2").classList.add("vanish");
+			document.getElementById("bb").classList.add("vanish");
+		}
+		function turnpage(p){
+			pp = (pp + p);
+			if(pp<0){pp=0}
+			if(pp>3){pp=3}
+			document.getElementById("rimg").src = "src/" + pp + ".png";
+		}
+	</script>
+  </body>
+</html>
