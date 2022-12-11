@@ -75,7 +75,7 @@
 			if(pp>3){pp=3}
 			document.getElementById("rimg").src = "src/" + pp + ".png";
 		}
-		if(!window.navigator.standalone || !(window.matchMedia('(display-mode: standalone)').matches)){alert("「ホーム画面に追加」をして開いてください。");document.getElementById("help").classList.remove("vanish");}
+		if(!window.navigator.standalone && !(window.matchMedia('(display-mode: standalone)').matches)){alert("「ホーム画面に追加」をして開いてください。");document.getElementById("help").classList.remove("vanish");}
 	</script>
   </body>
 </html>
