@@ -14,32 +14,32 @@
 	<link rel="apple-touch-icon" href="src/icon.png">
   </head>
   <body>
-	<div id="rooms" style="width:80vw;height:70vh;position:absolute;top:10vh;left:10vw;border:solid;margin:0;padding:0;">
-		<ul style="height:60vh;width:100%;overflow-y: scroll;margin:0px;padding:10px;box-sizing: border-box;background:#EEEEEE;border:solid 1px;" id="jj">
+	<div id="rooms" class="rooms">
+		<ul class="roomcont" id="jj">
 			<li>サーバーと通信中です...</li>
 		</ul>
-		<div style="width:100%;height:10vh;margin:0;padding:10px;box-sizing: border-box;">
-		<a id="reqb" style="position:fixed;width:6vh;height:6vh;font-size:5vh;transform: translateX(120%);text-align:center;vertical-align:middle;border:solid 1px;">⟳</a>
-		<a id="plusb" style="position:fixed;width:6vh;height:6vh;font-size:5vh;text-align:center;border:solid 1px;">+</a>
+		<div class="roombuttons">
+		<a id="reqb" class="reqb">⟳</a>
+		<a id="plusb" class="plusb">+</a>
 		</div>
 	</div>
-	<a id="ruleb" style="position:absolute;top:82vh;left:50vw;width:60vw;height:10vw;text-align:center;font-size:6vw;padding-top:1px;transform: translateX(-50%);border:solid;">ルール</a>
+	<a id="ruleb" class="ruleb">ルール</a>
     <div id="bb" class="bb"></div>
-	<div id="modal1" class="modal" style="height:40vw;top:calc( 50vh - 20vw );">
-		<div style="margin:0;padding:0;width:100%;height:10vw;display:flex;justify-content:flex-end;">
-			<a style="font-size:10vw;width:10vw;height:10vw;"></a>
+	<div id="modal1" class="modal" style="height:40vw;">
+		<div class="modalbar">
+			<a class="closeicon"></a>
 		</div>
-		<div style="margin:0;padding:0;width:90vw;height;30vw;display:flex;justify-content:center;flex-flow: column;">
+		<div class="modalcont">
 			<H2 style="margin-top:0;text-align:center;">ユーザー名を入力してください</H2>
 			<input style="margin-left:auto;margin-right:auto;width:80vw;height:5vw;font-size: 16px;" id="username" maxlength="10"></input>
 			<button style="margin:1vw;margin-left:auto;margin-right:auto;width:20vw;" id="fb">決定</button>
 		</div>
 	</div>
 	<div id="modal2" class="modal vanish">
-		<div style="margin:0;padding:0;width:100%;height:10vw;display:flex;justify-content:flex-end;">
-			<a style="font-size:10vw;width:10vw;height:10vw;text-align:center;" onclick="closemodal2();">×</a>
+		<div class="modalbar">
+			<a class="closeicon" onclick="closemodal2();">×</a>
 		</div>
-		<div style="margin:0;padding:0;width:90vw;height:70vw;display:flex;justify-content:center;flex-flow: column;">
+		<div class="modalcont" style="height:70vw">
 			<div style="width:90vw;height:60vw;display:flex;justify-content:center;">
 				<img id="rimg" src="src/0.png" style="width:60vw;height:60vw;left:15vw;">
 			</div>
@@ -49,12 +49,7 @@
 			</div>
 		</div>
 	</div>
-	<a id="quitb" class="vanish" style="position:fixed;top:calc( 50vh + 63vw );right:20px;width:12vh;height:6vh;font-size:4vh;text-align:center;border:solid 1px;">退出</a>
-	<div id="help" class="vanish" style="position:absolute;width:100vw;height:100vh;background:#FFFFFF;">
-		<H1>「ホーム画面に追加」のやり方<H1></br>
-		<a href="https://www.google.co.jp/search?q=iphone+%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2%E3%81%AB%E8%BF%BD%E5%8A%A0">ios</a></br>
-		<a href="https://www.google.co.jp/search?q=android+%E3%83%9B%E3%83%BC%E3%83%A0%E7%94%BB%E9%9D%A2%E3%81%AB%E8%BF%BD%E5%8A%A0">android</a></br>
-	</div>
+	<a id="quitb" class="vanish qbutton" >退出</a>
 	<script>
 		var pp = 0;
 		function handle(event) {
@@ -75,7 +70,7 @@
 			if(pp>3){pp=3}
 			document.getElementById("rimg").src = "src/" + pp + ".png";
 		}
-		if(!window.navigator.standalone && !(window.matchMedia('(display-mode: standalone)').matches)){alert("「ホーム画面に追加」をして開いてください。");document.getElementById("help").classList.remove("vanish");}
+		document.documentElement.style.setProperty( '--vh', window.innerHeight/100 + 'px');
 	</script>
   </body>
 </html>
