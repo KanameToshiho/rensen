@@ -32,22 +32,33 @@ FinishPoint[0] = -1
 	  "reconnectionAttempts": "Infinity",
 	  "transports" : ["websocket"]
   });
-    const hei = window.innerWidth;
+  var hei = window.innerWidth<window.innerHeight?window.innerWidth:window.innerHeight;
+  var wid = hei;
+  var ws = (wid-margin*2)/m;
+  var hs = (hei-margin*2)/m; 
+window.addEventListener('DOMContentLoaded', (event) => {
+    setTimeout(() => {
+	  hei = window.innerWidth<window.innerHeight?window.innerWidth:window.innerHeight;
+	  wid = hei;
+	  ws = (wid-margin*2)/m;
+	  hs = (hei-margin*2)/m; 
+	}, 500);
+});
+function setup() {
+  if(content[0]=="uname"){
+  	uname = unescape(content[1]);
+  	if(!uname){uname=""}
+  	  if(uname.trim()==""){uname="";}else{
+  		document.getElementById("modal1").classList.add("vanish");
+  		document.getElementById("bb").classList.add("vanish");
+  		socket.emit("enter",{username:uname});
+  		socket.emit("req",{});
+  	  }
+  }
+  const hei = window.innerWidth<window.innerHeight?window.innerWidth:window.innerHeight;
   const wid = window.innerWidth;
   const ws = (wid-margin*2)/m;
   const hs = (hei-margin*2)/m; 
-function setup() {
-if(content[0]=="uname"){
-	uname = content[1]
-	if(!uname){uname=""}
-	  if(uname.trim()==""){uname="";}else{
-		document.getElementById("modal1").classList.add("vanish");
-		document.getElementById("bb").classList.add("vanish");
-		uname = uname.replace(/&/g, '&lt;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, "&#x27;");
-		socket.emit("enter",{username:uname});
-		socket.emit("req",{});
-	  }
-}
   createCanvas(wid,hei+60);
   document.getElementById("defaultCanvas0").classList.add("vanish");
   let btn = document.getElementById("plusb");
@@ -75,11 +86,9 @@ if(content[0]=="uname"){
 	  if(uname.trim()==""){uname="";alert("ユーザー名を入力してください")}else{
 		  document.getElementById("modal1").classList.add("vanish");
 		  document.getElementById("bb").classList.add("vanish");
-		　 uname = uname.replace(/&/g, '&lt;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, "&#x27;");
 		  socket.emit("enter",{username:uname});
 		  socket.emit("req",{});
-		  let myname = encodeURIComponent(uname);
-		  document.cookie = 'uname=' + myname;
+		  document.cookie = 'uname=' + escape(uname);
 	  }
   }
   let btn4 = document.getElementById("quitb");
@@ -99,9 +108,9 @@ socket.on("roomdata",(e)=>{
 	if(!e[i].status){
 		let ins = document.createElement('li');
 		if(e[i].hostname.length<=13){
-			ins.innerHTML = (e[i].hostname);
+			ins.innerHTML = (e[i].hostname.replace(/&/g, '&lt;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, "&#x27;"));
 		}else{
-			ins.innerHTML = (e[i].hostname.substring(0, 13) + "...")
+			ins.innerHTML = (e[i].hostname.replace(/&/g, '&lt;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, "&#x27;").substring(0, 13) + "...")
 		}
 		ins.setAttribute('id', i);
 		ins.addEventListener('click', join_);
@@ -118,7 +127,7 @@ socket.on("roomdata",(e)=>{
 socket.on("signaling",(e)=>{
 	socket.emit("start")
 	console.log("signaling");
-	ename = e.from.replace('&lt;',"<").replace('&gt;',">").replace('&quot;','/"' ).replace("&#x27;","/'");
+	ename = e.from;
 	turn=FW;
 	gs=100;
 	document.getElementById("quitb").classList.add("vanish");
@@ -150,7 +159,7 @@ socket.on("action",(e)=>{
 	}
 	if(sam__ == m**2*2 && !win && !lose){if(MyRole){win=true}else{lose=true};socket.emit("end",{dfwin:true});turn=null;}
 	if(sam__ != m**2*2 && sam_ == m**2*2 && MyRole && !win && !lose){alert("線を引ける場所がないのでパスします。");socket.emit("action",{f:true})}
-	}
+	}else{turn=!turn;alert("パス");}
 })
 socket.on("close",(e)=>{
 	socket.emit("closed");
@@ -187,13 +196,14 @@ function join_(e){
 	let c = path[0].getAttribute("id")
 	socket.emit("join",{roomid:c});
 	MyRole=DF;
-	ename = path[0].innerHTML;
+	ename = path[0].innerHTML.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&#x27;/g,"'");
 	gs=100;
 }
 function req(){
 	socket.emit("req",{});
 }
 function Hishi(){
+	console.log("形負け");
   if(MyRole==DF){lose=true}else{win=true}
   turn=null;
   socket.emit("end",{});
@@ -310,7 +320,7 @@ clip=false;
   if(MyRole!=turn){fill(200)}
   text("YOUR TURN" + "(" + k + ")",wid/2,hei+40)
   fill(255)
-  if(document.getElementById("quitb").classList[0]=='vanish' && (win || lose)){document.getElementById("quitb").classList.remove("vanish");}
+  if(document.getElementById("quitb").classList.contains("vanish") && (win || lose)){document.getElementById("quitb").classList.remove("vanish");}
 }
 function mousePressed(){
   flag = false;
